@@ -11,6 +11,11 @@ public class FalconController : MonoBehaviour
     [Header("Movement Smoothing")]
     public float rotationSpeed = 10f;
 
+    [Header("Shoulder Anchor")]
+    public Transform shoulderAnchor;
+    public float anchorFollowSpeed = 12f;
+    public float anchorRotationSpeed = 12f;
+
     private Vector2 moveInput;
     private float verticalInput;
 
@@ -19,10 +24,14 @@ public class FalconController : MonoBehaviour
 
     private void Update()
     {
-        if (!isActiveCharacter)
-            return;
-
-        HandleMovement();
+        if (isActiveCharacter)
+        {
+            HandleMovement();
+        }
+        else
+        {
+            AnchorToShoulder();
+        }
     }
 
     private void HandleMovement()
@@ -50,6 +59,24 @@ public class FalconController : MonoBehaviour
         }
     }
 
+    private void AnchorToShoulder()
+    {
+        if (shoulderAnchor == null)
+            return;
+
+        transform.position = Vector3.Lerp(
+            transform.position,
+            shoulderAnchor.position,
+            anchorFollowSpeed * Time.deltaTime
+        );
+
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            shoulderAnchor.rotation,
+            anchorRotationSpeed * Time.deltaTime
+        );
+    }
+
     public void SetActiveCharacter(bool active)
     {
         isActiveCharacter = active;
@@ -60,6 +87,11 @@ public class FalconController : MonoBehaviour
             verticalInput = 0f;
             isBoosting = false;
         }
+    }
+
+    public bool IsActiveCharacter()
+    {
+        return isActiveCharacter;
     }
 
     public void OnMove(InputAction.CallbackContext context)

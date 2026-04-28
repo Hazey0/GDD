@@ -32,11 +32,31 @@ public class HumanController : MonoBehaviour
 
     private void Update()
     {
+        HandleGravityAlways();
+
         if (!isActiveCharacter)
+        {
+            ApplyGravityOnly();
             return;
+        }
 
         HandleCooldowns();
         HandleMovement();
+    }
+
+    private void HandleGravityAlways()
+    {
+        if (controller.isGrounded && velocity.y < 0f)
+        {
+            velocity.y = -2f;
+        }
+
+        velocity.y += gravity * Time.deltaTime;
+    }
+
+    private void ApplyGravityOnly()
+    {
+        controller.Move(velocity * Time.deltaTime);
     }
 
     private void HandleCooldowns()
@@ -49,13 +69,6 @@ public class HumanController : MonoBehaviour
 
     private void HandleMovement()
     {
-        bool isGrounded = controller.isGrounded;
-
-        if (isGrounded && velocity.y < 0f)
-        {
-            velocity.y = -2f;
-        }
-
         Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
@@ -80,7 +93,6 @@ public class HumanController : MonoBehaviour
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
         }
 
-        velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
 
@@ -93,6 +105,11 @@ public class HumanController : MonoBehaviour
             moveInput = Vector2.zero;
             isDashing = false;
         }
+    }
+
+    public bool IsActiveCharacter()
+    {
+        return isActiveCharacter;
     }
 
     public void OnMove(InputAction.CallbackContext context)
