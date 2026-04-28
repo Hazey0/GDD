@@ -14,6 +14,14 @@ public class CoinPickup : MonoBehaviour
 
     private bool collected = false;
 
+    private void Awake()
+    {
+        if (coinManager == null)
+        {
+            coinManager = FindFirstObjectByType<CoinManager>();
+        }
+    }
+
     private void Update()
     {
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
@@ -47,7 +55,7 @@ public class CoinPickup : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("CoinPickup has no CoinManager assigned.");
+            Debug.LogWarning("CoinPickup could not find a CoinManager in the scene.");
         }
 
         gameObject.SetActive(false);

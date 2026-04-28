@@ -13,8 +13,6 @@ public class CoinManager : MonoBehaviour
     {
         currentCoins++;
 
-        Debug.Log("Coin collected! Coins: " + currentCoins + "/" + coinsNeededToOpenGate);
-
         if (currentCoins >= coinsNeededToOpenGate)
         {
             if (gateToOpen != null)
