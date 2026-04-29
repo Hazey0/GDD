@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 public class FalconController : MonoBehaviour
 {
     [Header("Movement")]
@@ -16,17 +18,34 @@ public class FalconController : MonoBehaviour
     public float anchorFollowSpeed = 12f;
     public float anchorRotationSpeed = 12f;
 
+    private Rigidbody rb;
+
     private Vector2 moveInput;
     private float verticalInput;
 
     private bool isActiveCharacter = false;
     private bool isBoosting = false;
 
+    private Vector3 desiredMoveVelocity;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+
+        rb.useGravity = false;
+        rb.isKinematic = false;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
     private void Update()
     {
         if (isActiveCharacter)
         {
-            HandleMovement();
+            CalculateMovement();
+            RotateFalcon();
         }
         else
         {
@@ -34,29 +53,43 @@ public class FalconController : MonoBehaviour
         }
     }
 
-    private void HandleMovement()
+    private void FixedUpdate()
+    {
+        if (!isActiveCharacter)
+            return;
+
+        rb.MovePosition(rb.position + desiredMoveVelocity * Time.fixedDeltaTime);
+    }
+
+    private void CalculateMovement()
     {
         Vector3 horizontalMove = new Vector3(moveInput.x, 0f, moveInput.y);
         horizontalMove = Vector3.ClampMagnitude(horizontalMove, 1f);
 
         Vector3 verticalMove = Vector3.up * verticalInput;
 
-        Vector3 finalMoveDirection = horizontalMove + verticalMove;
-        finalMoveDirection = Vector3.ClampMagnitude(finalMoveDirection, 1f);
+        float horizontalSpeed = isBoosting ? boostSpeed : moveSpeed;
 
-        float currentSpeed = isBoosting ? boostSpeed : moveSpeed;
+        Vector3 horizontalVelocity = horizontalMove * horizontalSpeed;
+        Vector3 verticalVelocity = verticalMove * verticalSpeed;
 
-        transform.position += finalMoveDirection * currentSpeed * Time.deltaTime;
+        desiredMoveVelocity = horizontalVelocity + verticalVelocity;
+    }
 
-        if (horizontalMove.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(horizontalMove);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
-        }
+    private void RotateFalcon()
+    {
+        Vector3 horizontalMove = new Vector3(moveInput.x, 0f, moveInput.y);
+
+        if (horizontalMove.magnitude < 0.1f)
+            return;
+
+        Quaternion targetRotation = Quaternion.LookRotation(horizontalMove.normalized);
+
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            targetRotation,
+            rotationSpeed * Time.deltaTime
+        );
     }
 
     private void AnchorToShoulder()
@@ -64,28 +97,40 @@ public class FalconController : MonoBehaviour
         if (shoulderAnchor == null)
             return;
 
-        transform.position = Vector3.Lerp(
+        desiredMoveVelocity = Vector3.zero;
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        Vector3 targetPosition = Vector3.Lerp(
             transform.position,
             shoulderAnchor.position,
             anchorFollowSpeed * Time.deltaTime
         );
 
-        transform.rotation = Quaternion.Slerp(
+        Quaternion targetRotation = Quaternion.Slerp(
             transform.rotation,
             shoulderAnchor.rotation,
             anchorRotationSpeed * Time.deltaTime
         );
+
+        rb.MovePosition(targetPosition);
+        rb.MoveRotation(targetRotation);
     }
 
     public void SetActiveCharacter(bool active)
     {
         isActiveCharacter = active;
 
-        if (!active)
+        moveInput = Vector2.zero;
+        verticalInput = 0f;
+        isBoosting = false;
+        desiredMoveVelocity = Vector3.zero;
+
+        if (rb != null)
         {
-            moveInput = Vector2.zero;
-            verticalInput = 0f;
-            isBoosting = false;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
     }
 
