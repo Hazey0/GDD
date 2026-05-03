@@ -1,3 +1,4 @@
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,10 +25,16 @@ public class HumanController : MonoBehaviour
     private float dashTimer = 0f;
     private float dashCooldownTimer = 0f;
     private Vector3 dashDirection;
+    public Animator animator;
+    //private bool isWalking;
+    //private bool isJumping;
+    private int isWalkingHash;
+    private int isJumpingHash;
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        
     }
 
     private void Update()
@@ -42,6 +49,18 @@ public class HumanController : MonoBehaviour
 
         HandleCooldowns();
         HandleMovement();
+
+        float inputMagnitude = moveInput.magnitude;
+
+        if (inputMagnitude > 0.1f)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+        }
+
     }
 
     private void HandleGravityAlways()
@@ -116,8 +135,9 @@ public class HumanController : MonoBehaviour
     {
         if (!isActiveCharacter)
             return;
-
+        //animator.SetBool("isWalking", true);
         moveInput = context.ReadValue<Vector2>();
+
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -126,11 +146,17 @@ public class HumanController : MonoBehaviour
             return;
 
         if (!context.performed)
+        {
             return;
+        }
 
+            animator.SetBool("isJumping", true);
         if (controller.isGrounded)
         {
+
+            
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+
         }
     }
 
