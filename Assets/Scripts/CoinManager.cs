@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class CoinManager : MonoBehaviour
@@ -5,6 +6,7 @@ public class CoinManager : MonoBehaviour
     [Header("Coin Requirement")]
     public int coinsNeededToOpenGate = 1;
     public int currentCoins = 0;
+    public TMP_Text coinText;
 
     [Header("Gate")]
     public Gate gateToOpen;
@@ -12,6 +14,7 @@ public class CoinManager : MonoBehaviour
     public void CollectCoin()
     {
         currentCoins++;
+        coinText.text = "Coins: "+ currentCoins.ToString();
 
         if (currentCoins >= coinsNeededToOpenGate)
         {
