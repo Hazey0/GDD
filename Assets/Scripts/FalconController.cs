@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -52,13 +52,18 @@ public class FalconController : MonoBehaviour
         else
         {
             AnchorToShoulder();
+            
         }
     }
 
     private void FixedUpdate()
     {
         if (!isActiveCharacter)
+        {
+            //animator.SetBool("perched", true);
+            animator.SetBool("flying", false);
             return;
+        }
         animator.SetBool("flying", true);
         rb.MovePosition(rb.position + desiredMoveVelocity * Time.fixedDeltaTime);
     }
@@ -93,32 +98,21 @@ public class FalconController : MonoBehaviour
             rotationSpeed * Time.deltaTime
         );
     }
-
+    //old anchor
+    //private void AnchorToShoulder() { if (shoulderAnchor == null) return; desiredMoveVelocity = Vector3.zero; rb.linearVelocity = Vector3.zero; rb.angularVelocity = Vector3.zero; Vector3 targetPosition = Vector3.Lerp(transform.position, shoulderAnchor.position, anchorFollowSpeed * Time.deltaTime); Quaternion targetRotation = Quaternion.Slerp(transform.rotation, shoulderAnchor.rotation, anchorRotationSpeed * Time.deltaTime); rb.MovePosition(targetPosition); rb.MoveRotation(targetRotation); }
     private void AnchorToShoulder()
-    {
-        if (shoulderAnchor == null)
-            return;
+{
+    if (shoulderAnchor == null)
+        return;
 
-        desiredMoveVelocity = Vector3.zero;
+    desiredMoveVelocity = Vector3.zero;
 
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+    rb.linearVelocity = Vector3.zero;
+    rb.angularVelocity = Vector3.zero;
 
-        Vector3 targetPosition = Vector3.Lerp(
-            transform.position,
-            shoulderAnchor.position,
-            anchorFollowSpeed * Time.deltaTime
-        );
-
-        Quaternion targetRotation = Quaternion.Slerp(
-            transform.rotation,
-            shoulderAnchor.rotation,
-            anchorRotationSpeed * Time.deltaTime
-        );
-
-        rb.MovePosition(targetPosition);
-        rb.MoveRotation(targetRotation);
-    }
+    rb.position = shoulderAnchor.position;
+    rb.rotation = shoulderAnchor.rotation;
+}
 
     public void SetActiveCharacter(bool active)
     {
