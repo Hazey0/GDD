@@ -424,6 +424,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &331651405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1142291823138337187, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+  m_PrefabInstance: {fileID: 6633929167762920058}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &331651407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331651405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc4fbc0163a4420b9c202296aac3d1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyMove
+  moveSpeed: 5
+  myWaypoints: []
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1912,6 +1931,35 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246209567}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1357978402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5135913401473711280, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+  m_PrefabInstance: {fileID: 6633929167762920058}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1357978410 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2865011875057384789, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+  m_PrefabInstance: {fileID: 6633929167762920058}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1357978411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357978402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72efb9e0cf1734f0988c6069f6220681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  healthPoints: 100
+  respawnHealthPoints: 100
+  numberOfLives: 1
+  isAlive: 1
+  explosionPrefab: {fileID: 0}
+  onLivesGone: 1
+  LevelToLoad: 
 --- !u!1001 &1369983588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2299,6 +2347,97 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097384496}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &4978374655250651244
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 485402132332491395, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.03730561
+      objectReference: {fileID: 0}
+    - target: {fileID: 485402132332491395, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.030126687
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.861891
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.7795439
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202518901787374082, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7349011961327351153, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.10448986
+      objectReference: {fileID: 0}
+    - target: {fileID: 7349011961327351153, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.11870323
+      objectReference: {fileID: 0}
+    - target: {fileID: 8157543746580216797, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_Name
+      value: URP - Giant01 - Golem
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617416355413223992, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e5c74dcb1b93e2b428c30ba77143a876, type: 2}
+    - target: {fileID: 8617416355413223992, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8617416355413223992, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'B-spine'\n\tTransform 'B-chest'\n\tFrom
+        animation clip 'Enemy_idle'"
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8157543746580216797, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8949556713173936970}
+  m_SourcePrefab: {fileID: 100100000, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
 --- !u!1001 &6633929167762920058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2363,11 +2502,44 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5135913401473711280, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1142291823138337187, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 331651407}
+    - targetCorrespondingSourceObject: {fileID: 5135913401473711280, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1357978411}
   m_SourcePrefab: {fileID: 100100000, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+--- !u!1 &8608884423301116403 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8157543746580216797, guid: b031e4f7166af8f44959fe2c5e97ba0c, type: 3}
+  m_PrefabInstance: {fileID: 4978374655250651244}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8949556713173936970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608884423301116403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da968da3e791c574ebdc65484464503a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  player: {fileID: 1357978410}
+  moveSpeed: 3
+  chaseDistance: 8
+  attackDistance: 2
+  damage: 10
+  attackCooldown: 1.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2383,3 +2555,4 @@ SceneRoots:
   - {fileID: 423497968}
   - {fileID: 6633929167762920058}
   - {fileID: 1369983588}
+  - {fileID: 4978374655250651244}
