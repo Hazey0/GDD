@@ -28,6 +28,8 @@ public class FalconController : MonoBehaviour
 
     private Vector3 desiredMoveVelocity;
 
+    public Animator animator;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -57,7 +59,7 @@ public class FalconController : MonoBehaviour
     {
         if (!isActiveCharacter)
             return;
-
+        animator.SetBool("flying", true);
         rb.MovePosition(rb.position + desiredMoveVelocity * Time.fixedDeltaTime);
     }
 
