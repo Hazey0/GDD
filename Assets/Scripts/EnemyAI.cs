@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    public Animator animtor;
     public Transform player;
     public float moveSpeed = 3f;
     public float chaseDistance = 8f;
@@ -27,11 +28,20 @@ public class EnemyAI : MonoBehaviour
 
         if (distance <= attackDistance)
         {
+            animtor.SetBool("isChasing", false);
             AttackPlayer();
+
         }
         else if (distance <= chaseDistance)
         {
+            animtor.SetBool("isChasing", true);
             ChasePlayer();
+        }
+
+        else
+        {
+
+            animtor.SetBool("isChasing", false);
         }
     }
 
@@ -51,6 +61,7 @@ public class EnemyAI : MonoBehaviour
 
     void AttackPlayer()
     {
+ 
         Vector3 direction = player.position - transform.position;
         direction.y = 0f;
 
@@ -61,12 +72,17 @@ public class EnemyAI : MonoBehaviour
 
         if (Time.time >= lastAttackTime + attackCooldown)
         {
+            
             lastAttackTime = Time.time;
 
+
             Health playerHealth = player.GetComponent<Health>();
+            
+
             if (playerHealth != null)
             {
                 playerHealth.ApplyDamage(damage);
+                animtor.SetTrigger("attack");
                 Debug.Log("Enemy attacked player. Player health = " + playerHealth.healthPoints);
             }
         }

@@ -1436,6 +1436,7 @@ GameObject:
   - component: {fileID: 5220864557345151602}
   - component: {fileID: 4675278023879687948}
   - component: {fileID: 7417845708510646904}
+  - component: {fileID: 1436227103265790458}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -1689,6 +1690,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanWinTriggerDetector
   gameManager: {fileID: 2476159817614007258}
+--- !u!114 &1436227103265790458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135913401473711280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72efb9e0cf1734f0988c6069f6220681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  animator: {fileID: 8310448555496101294}
+  healthPoints: 50
+  respawnHealthPoints: 1
+  numberOfLives: 1
+  isAlive: 1
+  explosionPrefab: {fileID: 0}
+  onLivesGone: 1
+  LevelToLoad: 
 --- !u!1 &5497218396968595425
 GameObject:
   m_ObjectHideFlags: 0
