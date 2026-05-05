@@ -26,6 +26,10 @@ public class CharacterSwitchManager : MonoBehaviour
         if (!context.performed)
             return;
 
+
+        if (controllingHuman && falconController.IsPerchedAway())
+            return; //cannot switch to falcon when it's perched.
+
         controllingHuman = !controllingHuman;
         SetControlState(controllingHuman);
     }
@@ -39,11 +43,13 @@ public class CharacterSwitchManager : MonoBehaviour
         {
             if (humanActive)
             {
+                cameraFollow.SetFalconMode(false);
                 cameraFollow.SetTarget(humanController.transform);
             }
             else
             {
                 cameraFollow.SetTarget(falconController.transform);
+                cameraFollow.SetFalconMode(true);
             }
         }
 
