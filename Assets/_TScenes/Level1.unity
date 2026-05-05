@@ -138,6 +138,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Treasure
   value: 10
   explosionPrefab: {fileID: 0}
+--- !u!1 &113893118 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5135913401473711280, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+  m_PrefabInstance: {fileID: 6633929167762920058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &159892813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1974,6 +1979,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2865011875057384789, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
   m_PrefabInstance: {fileID: 6633929167762920058}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1393047695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113893118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72efb9e0cf1734f0988c6069f6220681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  animator: {fileID: 1856375390}
+  healthPoints: 100
+  respawnHealthPoints: 1
+  numberOfLives: 1
+  isAlive: 1
+  explosionPrefab: {fileID: 0}
+  onLivesGone: 1
+  LevelToLoad: 
 --- !u!1 &1500684577
 GameObject:
   m_ObjectHideFlags: 0
@@ -2160,6 +2185,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809591026}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &1856375390 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8310448555496101294, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+  m_PrefabInstance: {fileID: 6633929167762920058}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1901495699
 GameObject:
   m_ObjectHideFlags: 0
@@ -2433,10 +2463,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5220864557345151602, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5220864557345151602, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionId
+      value: fc7edfa3-eb1e-4cfd-974b-b456dcc5b15a
+      objectReference: {fileID: 0}
+    - target: {fileID: 5220864557345151602, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionName
+      value: 'Gameplay/FalconRearView[/Keyboard/r]'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5135913401473711280, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1393047695}
   m_SourcePrefab: {fileID: 100100000, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
