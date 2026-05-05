@@ -659,9 +659,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 0}
-  offset: {x: 0, y: 5, z: -8}
-  followSpeed: 8
-  rotationSpeed: 8
+  humanDistance: 8
+  humanHeightOffset: 1.5
+  mouseSensitivity: 0.04
+  minPitch: -20
+  maxPitch: 55
+  falconDistanceBehind: 7
+  falconHeightOffset: 1.5
+  falconRearViewDistance: 6
+  falconRearViewHeightOffset: 1.5
+  humanPositionSmoothSpeed: 12
+  humanRotationSmoothSpeed: 12
+  falconPositionSnapSpeed: 30
+  falconRotationSnapSpeed: 30
 --- !u!1 &1847629743220188369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1436,6 +1446,7 @@ GameObject:
   - component: {fileID: 5220864557345151602}
   - component: {fileID: 4675278023879687948}
   - component: {fileID: 7417845708510646904}
+  - component: {fileID: 5974807892934850969}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -1609,7 +1620,19 @@ MonoBehaviour:
     m_ActionId: 48434fcf-8c46-4263-875c-d7164cfd1c71
     m_ActionName: 'Gameplay/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2418519177341787422}
+        m_TargetAssemblyTypeName: CameraFollow, Assembly-CSharp
+        m_MethodName: OnLook
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: fa1878ca-99b0-4b87-bed9-9f6b87abd22b
     m_ActionName: 'Gameplay/Look[/Mouse/delta]'
   - m_PersistentCalls:
@@ -1652,6 +1675,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 13e98718-a348-4e10-b151-6451e7065260
     m_ActionName: 'Gameplay/FlyVertical[/Keyboard/leftCtrl,/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5974807892934850969}
+        m_TargetAssemblyTypeName: HumanPerchInteractor, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5a9dc6ba-e53e-426d-b698-de7ae240ba9e
+    m_ActionName: 'Gameplay/Interact[/Keyboard/f]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -1672,9 +1711,12 @@ MonoBehaviour:
   moveSpeed: 6
   jumpHeight: 2
   gravity: -20
+  cameraTransform: {fileID: 8244705584105955706}
   dashSpeed: 14
   dashDuration: 0.15
   dashCooldown: 0.5
+  maxJumpsWithFalcon: 2
+  maxJumpsWithoutFalcon: 1
   animator: {fileID: 8310448555496101294}
 --- !u!114 &7417845708510646904
 MonoBehaviour:
@@ -1689,6 +1731,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HumanWinTriggerDetector
   gameManager: {fileID: 2476159817614007258}
+--- !u!114 &5974807892934850969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135913401473711280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c21997fe3bdbff46bbb4f40b9e5ecfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HumanPerchInteractor
+  humanController: {fileID: 4675278023879687948}
+  falconController: {fileID: 8582524429585673050}
+  currentPerch: {fileID: 0}
 --- !u!1 &5497218396968595425
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,13 +2076,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d108cf5cd72cde548944cbcde4143987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FalconController
-  moveSpeed: 8
-  verticalSpeed: 6
-  boostSpeed: 16
-  rotationSpeed: 10
+  flightSpeed: 6
+  mouseYawSensitivity: 0.12
+  mousePitchSensitivity: 0.08
+  rotationSmoothSpeed: 10
+  minPitch: -45
+  maxPitch: 80
+  cameraFollow: {fileID: 2418519177341787422}
   shoulderAnchor: {fileID: 1736935890552382322}
   anchorFollowSpeed: 12
   anchorRotationSpeed: 12
+  currentPerchPoint: {fileID: 0}
+  isPerchedAwayFromHuman: 0
   animator: {fileID: 2854285800393633974}
 --- !u!114 &9069171294989060698
 MonoBehaviour:
@@ -2053,10 +2115,14 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 48434fcf-8c46-4263-875c-d7164cfd1c71
+    m_ActionName: 'Gameplay/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8582524429585673050}
         m_TargetAssemblyTypeName: FalconController, Assembly-CSharp
-        m_MethodName: OnMove
+        m_MethodName: OnLook
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2066,10 +2132,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 48434fcf-8c46-4263-875c-d7164cfd1c71
-    m_ActionName: 'Gameplay/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: fa1878ca-99b0-4b87-bed9-9f6b87abd22b
     m_ActionName: 'Gameplay/Look[/Mouse/delta]'
   - m_PersistentCalls:
@@ -2077,19 +2139,7 @@ MonoBehaviour:
     m_ActionId: 699b8ae5-d1b3-4f67-b76a-d182169a25ba
     m_ActionName: 'Gameplay/Jump[/Keyboard/space]'
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8582524429585673050}
-        m_TargetAssemblyTypeName: FalconController, Assembly-CSharp
-        m_MethodName: OnDash
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: cd719063-bd5d-4579-8d51-c37ca4be46bf
     m_ActionName: 'Gameplay/Dash[/Keyboard/leftShift]'
   - m_PersistentCalls:
@@ -2097,10 +2147,18 @@ MonoBehaviour:
     m_ActionId: ee045254-ca23-40c3-9f60-50b50362b294
     m_ActionName: 'Gameplay/SwitchCharacter[/Keyboard/e]'
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 13e98718-a348-4e10-b151-6451e7065260
+    m_ActionName: 'Gameplay/FlyVertical[/Keyboard/leftCtrl,/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5a9dc6ba-e53e-426d-b698-de7ae240ba9e
+    m_ActionName: 'Gameplay/Interact[/Keyboard/f]'
+  - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8582524429585673050}
-        m_TargetAssemblyTypeName: FalconController, Assembly-CSharp
-        m_MethodName: OnFlyVertical
+      - m_Target: {fileID: 2418519177341787422}
+        m_TargetAssemblyTypeName: CameraFollow, Assembly-CSharp
+        m_MethodName: OnRearView
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2110,8 +2168,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 13e98718-a348-4e10-b151-6451e7065260
-    m_ActionName: 'Gameplay/FlyVertical[/Keyboard/leftCtrl,/Keyboard/space]'
+    m_ActionId: fc7edfa3-eb1e-4cfd-974b-b456dcc5b15a
+    m_ActionName: 'Gameplay/FalconRearView[/Keyboard/r]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
