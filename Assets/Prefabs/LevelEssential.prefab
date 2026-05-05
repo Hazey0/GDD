@@ -1712,8 +1712,8 @@ MonoBehaviour:
   jumpHeight: 2
   gravity: -20
   cameraTransform: {fileID: 8244705584105955706}
-  dashSpeed: 14
-  dashDuration: 0.15
+  dashSpeed: 22
+  dashDuration: 0.2
   dashCooldown: 0.5
   maxJumpsWithFalcon: 2
   maxJumpsWithoutFalcon: 1
@@ -2076,7 +2076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d108cf5cd72cde548944cbcde4143987, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FalconController
-  flightSpeed: 6
+  flightSpeed: 8
   mouseYawSensitivity: 0.12
   mousePitchSensitivity: 0.08
   rotationSmoothSpeed: 10
