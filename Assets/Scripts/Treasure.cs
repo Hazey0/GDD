@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Treasure : MonoBehaviour {
-
+	public AudioSource sound;
 	public int value = 10;
 	public GameObject explosionPrefab;
 
@@ -21,6 +21,7 @@ public class Treasure : MonoBehaviour {
 			}
 			
 			// destroy after collection
+			sound.Play ();
 			Destroy (gameObject);
 		}
 	}

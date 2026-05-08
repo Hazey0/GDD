@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;  // ADD THIS LINE
 public class Health : MonoBehaviour {
 	
 	public enum deathAction {loadLevelWhenDead,doNothingWhenDead};
+	public AudioSource hitSound;
 	public Animator animator;
 	public float healthPoints = 1f;
 	public float respawnHealthPoints = 1f;		//base health points
@@ -29,11 +30,11 @@ public class Health : MonoBehaviour {
 		respawnPosition = transform.position;
 		respawnRotation = transform.rotation;
 		
-		if (LevelToLoad=="") // default to current scene 
-		{
-			// LevelToLoad = Application.loadedLevelName;
-			SceneManager.LoadScene(LevelToLoad);  // FIXED
-		}
+		//if (LevelToLoad=="") // default to current scene 
+		//{
+		//	// LevelToLoad = Application.loadedLevelName;
+		//	SceneManager.LoadScene(LevelToLoad);  // FIXED
+		//}
 	}
 	
 	// Update is called once per frame
@@ -72,6 +73,7 @@ public class Health : MonoBehaviour {
 	{	
 		healthPoints = healthPoints - amount;
 		animator.SetTrigger("isHit");
+		hitSound.PlayDelayed(0.24f);
 	}
 	
 	public void ApplyHeal(float amount)

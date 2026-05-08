@@ -1,7 +1,9 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class CoinPickup : MonoBehaviour
 {
+    public AudioSource coinSound;
     [Header("Pickup Settings")]
     public bool canHumanCollect = true;
     public bool canFalconCollect = true;
@@ -24,13 +26,13 @@ public class CoinPickup : MonoBehaviour
 
     private void Update()
     {
+
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (collected)
-            return;
+        if (collected) return;
 
         HumanController human = other.GetComponent<HumanController>();
         FalconController falcon = other.GetComponent<FalconController>();
@@ -38,14 +40,9 @@ public class CoinPickup : MonoBehaviour
         bool touchedByHuman = human != null;
         bool touchedByFalcon = falcon != null;
 
-        if (touchedByHuman && !canHumanCollect)
-            return;
-
-        if (touchedByFalcon && !canFalconCollect)
-            return;
-
-        if (!touchedByHuman && !touchedByFalcon)
-            return;
+        if (touchedByHuman && !canHumanCollect) return;
+        if (touchedByFalcon && !canFalconCollect) return;
+        if (!touchedByHuman && !touchedByFalcon) return;
 
         collected = true;
 
@@ -53,11 +50,11 @@ public class CoinPickup : MonoBehaviour
         {
             coinManager.CollectCoin();
         }
-        else
-        {
-            Debug.LogWarning("CoinPickup could not find a CoinManager in the scene.");
-        }
 
-        gameObject.SetActive(false);
+   
+        coinSound.Play();
+
+
+        Destroy(gameObject, coinSound.clip.length);
     }
 }

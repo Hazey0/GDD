@@ -15,6 +15,10 @@ public class CharacterSwitchManager : MonoBehaviour
     public GameObject falconActiveMarker;
 
     private bool controllingHuman = true;
+    public AudioSource SwitchToHuman;
+    public AudioSource SwitchToBird;
+    public AudioSource WindSound;
+
 
     private void Start()
     {
@@ -45,11 +49,16 @@ public class CharacterSwitchManager : MonoBehaviour
             {
                 cameraFollow.SetFalconMode(false);
                 cameraFollow.SetTarget(humanController.transform);
+                SwitchToHuman.Play();
+                WindSound.Stop();
             }
             else
             {
                 cameraFollow.SetTarget(falconController.transform);
                 cameraFollow.SetFalconMode(true);
+                SwitchToBird.Play();
+                WindSound.Play();
+
             }
         }
 

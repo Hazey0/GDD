@@ -3,7 +3,15 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class HumanController : MonoBehaviour
+   
 {
+    public AudioSource walkSound;
+    public AudioSource jumpSound;
+    public AudioSource attackSound;
+    public AudioSource landSound;
+    public AudioSource dashSound;
+
+
     [Header("Movement")]
     public float moveSpeed = 6f;
     public float jumpHeight = 2f;
@@ -38,6 +46,7 @@ public class HumanController : MonoBehaviour
     private float dashCooldownTimer = 0f;
     private Vector3 dashDirection;
     public Animator animator;
+    private bool wasGrounded = false;
     //private bool isWalking;
     //private bool isJumping;
     private int isWalkingHash;
@@ -72,10 +81,21 @@ public class HumanController : MonoBehaviour
         if (inputMagnitude > 0.1f)
         {
             animator.SetBool("isWalking", true);
+            if (!walkSound.isPlaying && controller.isGrounded)
+            {
+
+            walkSound.Play();
+            }
+
+        }
+        else if (!controller.isGrounded && walkSound.isPlaying)
+        {
+            walkSound.Stop();
         }
         else
         {
             animator.SetBool("isWalking", false);
+
         }
 
     }
@@ -91,6 +111,17 @@ public class HumanController : MonoBehaviour
         if (controller.isGrounded && velocity.y < 0f)
         {
 
+            if (!wasGrounded)
+            {
+                if (!dashSound.isPlaying)
+                {
+                    landSound.Play();
+                }
+
+                jumpSound.Stop();
+                walkSound.Stop(); // optional reset
+            }
+
             velocity.y = -2f;
 
             jumpsUsed = 0;
@@ -99,12 +130,17 @@ public class HumanController : MonoBehaviour
 
             if (animator != null)
             {
+                jumpSound.Stop();
+
                 animator.SetBool("isJumping", false);
             }
+           
         }
 
         velocity.y += gravity * Time.deltaTime;
-    }
+        wasGrounded = controller.isGrounded ;
+
+}
 
     private void ApplyGravityOnly()
     {
@@ -172,6 +208,7 @@ public class HumanController : MonoBehaviour
         else
         {
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
+            
         }
 
         // Gravity only applies when NOT dashing.
@@ -211,7 +248,9 @@ public class HumanController : MonoBehaviour
         if (isDashing)
             return;
 
-        //animator.SetBool("isWalking", true);
+      
+        
+        
         moveInput = context.ReadValue<Vector2>();
 
     }
@@ -230,6 +269,11 @@ public class HumanController : MonoBehaviour
 
         if(jumpsUsed < allowedJumps)
         {
+            if (!jumpSound.isPlaying)
+            {
+                jumpSound.Play();
+                walkSound.Stop();
+            }
             if(animator != null)
             {
                 animator.SetBool("isJumping", true);
@@ -271,6 +315,7 @@ public class HumanController : MonoBehaviour
             cameraRight.Normalize();
 
             moveDirection = cameraForward * moveInput.y + cameraRight * moveInput.x;
+            dashSound.Play();
         }
         else
         {
@@ -282,6 +327,7 @@ public class HumanController : MonoBehaviour
         if (moveDirection.magnitude < 0.1f)
         {
             moveDirection = transform.forward;
+            
         }
 
         dashDirection = moveDirection.normalized;

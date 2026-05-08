@@ -4,6 +4,9 @@ public class EnemyAI : MonoBehaviour
 {
     public Animator animtor;
     public Transform player;
+    public AudioSource  walk;
+    public AudioSource roar;
+    bool haveRoared=false;
     public float moveSpeed = 3f;
     public float chaseDistance = 8f;
     public float attackDistance = 2f;
@@ -29,18 +32,29 @@ public class EnemyAI : MonoBehaviour
         if (distance <= attackDistance)
         {
             animtor.SetBool("isChasing", false);
+            walk.Stop();
             AttackPlayer();
 
         }
         else if (distance <= chaseDistance)
         {
+            if (!haveRoared)
+            {
+                roar.Play();
+                haveRoared = true;
+            }
             animtor.SetBool("isChasing", true);
+            if (!walk.isPlaying)
+            {
+                
+                walk.Play();
+            }
             ChasePlayer();
         }
 
         else
-        {
-
+        {haveRoared = false;
+            walk.Stop();
             animtor.SetBool("isChasing", false);
         }
     }
