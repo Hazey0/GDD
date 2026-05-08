@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;  // ADD THIS LINE
 public class Health : MonoBehaviour {
 	
 	public enum deathAction {loadLevelWhenDead,doNothingWhenDead};
-	
+	public Animator animator;
 	public float healthPoints = 1f;
 	public float respawnHealthPoints = 1f;		//base health points
 	
@@ -70,7 +70,8 @@ public class Health : MonoBehaviour {
 	
 	public void ApplyDamage(float amount)
 	{	
-		healthPoints = healthPoints - amount;	
+		healthPoints = healthPoints - amount;
+		animator.SetTrigger("isHit");
 	}
 	
 	public void ApplyHeal(float amount)
