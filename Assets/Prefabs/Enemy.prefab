@@ -857,9 +857,10 @@ MonoBehaviour:
   animtor: {fileID: 4066056698597333742}
   player: {fileID: 0}
   walk: {fileID: 4502160930105798828}
+  roar: {fileID: 6121899571868293219}
   moveSpeed: 3
   chaseDistance: 12
-  attackDistance: 2
+  attackDistance: 2.3
   damage: 10
   attackCooldown: 1.5
 --- !u!1 &2567929958444808226
@@ -2500,7 +2501,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0.278
       inSlope: 0
       outSlope: 0
       tangentMode: 0

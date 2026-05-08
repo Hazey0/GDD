@@ -2016,6 +2016,7 @@ GameObject:
   - component: {fileID: 4675278023879687948}
   - component: {fileID: 7417845708510646904}
   - component: {fileID: 5974807892934850969}
+  - component: {fileID: 909004697944549994}
   m_Layer: 0
   m_Name: Human
   m_TagString: Untagged
@@ -2324,6 +2325,27 @@ MonoBehaviour:
   humanController: {fileID: 4675278023879687948}
   falconController: {fileID: 8582524429585673050}
   currentPerch: {fileID: 0}
+--- !u!114 &909004697944549994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5135913401473711280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72efb9e0cf1734f0988c6069f6220681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  hitSound: {fileID: 582347742900672015}
+  animator: {fileID: 8310448555496101294}
+  healthPoints: 100
+  respawnHealthPoints: 1
+  numberOfLives: 1
+  isAlive: 1
+  explosionPrefab: {fileID: 0}
+  onLivesGone: 1
+  LevelToLoad: 
 --- !u!1 &5154369366799696297
 GameObject:
   m_ObjectHideFlags: 0
