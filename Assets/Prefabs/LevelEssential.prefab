@@ -370,7 +370,6 @@ Transform:
   - {fileID: 5807449866250316280}
   - {fileID: 5969131792359524854}
   - {fileID: 4864127380214308930}
-  - {fileID: 3775491937810369205}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1430601326038627437
@@ -3962,70 +3961,4 @@ Transform:
 Animator:
   m_CorrespondingSourceObject: {fileID: 9500000, guid: 0646ceebc81f52a4e8a676e94ab46092, type: 3}
   m_PrefabInstance: {fileID: 2854285800386299350}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &3622117484897037550
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 3795114678222630684}
-    m_Modifications:
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.0244217
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.00000011920929
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 12.340865
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 968748451281083625, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: falconCurrentlyPerchedHere
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5920131585792515262, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-      propertyPath: m_Name
-      value: FalconPerchInteractable
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
---- !u!4 &3775491937810369205 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 441745566621050459, guid: 6f8c60e5421b29d4e80fb9f76ce39d56, type: 3}
-  m_PrefabInstance: {fileID: 3622117484897037550}
   m_PrefabAsset: {fileID: 0}
