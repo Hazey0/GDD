@@ -52,6 +52,8 @@ public class HumanController : MonoBehaviour
     private int isWalkingHash;
     private int isJumpingHash;
 
+    private bool wasGroundedLastFrame = false;
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
@@ -108,9 +110,25 @@ public class HumanController : MonoBehaviour
             return;
         }
 
-        if (controller.isGrounded && velocity.y < 0f)
-        {
+        bool isGroundedNow = controller.isGrounded;
 
+    
+        if (wasGrounded && !isGroundedNow)
+        {
+        
+            if (jumpsUsed == 0)
+            {
+                jumpsUsed = 1;
+            }
+
+            if (animator != null)
+            {
+                animator.SetBool("isJumping", true);
+            }
+        }
+
+        if (isGroundedNow && velocity.y < 0f)
+        {
             if (!wasGrounded)
             {
                 if (!dashSound.isPlaying)
@@ -131,16 +149,14 @@ public class HumanController : MonoBehaviour
             if (animator != null)
             {
                 jumpSound.Stop();
-
                 animator.SetBool("isJumping", false);
             }
-           
         }
 
         velocity.y += gravity * Time.deltaTime;
-        wasGrounded = controller.isGrounded ;
 
-}
+        wasGrounded = isGroundedNow;
+    }
 
     private void ApplyGravityOnly()
     {

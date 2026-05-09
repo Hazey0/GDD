@@ -5,6 +5,9 @@ public class FalconPerchInteractable : MonoBehaviour
     [Header("References")]
     public Transform falconPerchPoint;
 
+    [Header("Gate")]
+    public FalconPerchGate linkedGate;
+
     [Header("State")]
     public bool falconCurrentlyPerchedHere = false;
 
@@ -38,5 +41,17 @@ public class FalconPerchInteractable : MonoBehaviour
     public void SetFalconPerchedHere(bool perched)
     {
         falconCurrentlyPerchedHere = perched;
+
+        if (linkedGate == null)
+            return;
+
+        if (falconCurrentlyPerchedHere)
+        {
+            linkedGate.OpenGate();
+        }
+        else
+        {
+            linkedGate.CloseGate();
+        }
     }
 }
