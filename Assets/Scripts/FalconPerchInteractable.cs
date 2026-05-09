@@ -5,8 +5,9 @@ public class FalconPerchInteractable : MonoBehaviour
     [Header("References")]
     public Transform falconPerchPoint;
 
-    [Header("Gate")]
-    public FalconPerchGate linkedGate;
+    [Header("Optional Reward Coin")]
+    public CoinPickup linkedRewardCoin;
+    public bool showCoinOnlyWhenFalconPerched = true;
 
     [Header("State")]
     public bool falconCurrentlyPerchedHere = false;
@@ -26,6 +27,8 @@ public class FalconPerchInteractable : MonoBehaviour
                 Debug.LogWarning(name + " is missing FalconPerchPoint.");
             }
         }
+
+        UpdateLinkedCoinVisibility();
     }
 
     public Transform GetPerchPoint()
@@ -41,17 +44,25 @@ public class FalconPerchInteractable : MonoBehaviour
     public void SetFalconPerchedHere(bool perched)
     {
         falconCurrentlyPerchedHere = perched;
+        UpdateLinkedCoinVisibility();
+    }
 
-        if (linkedGate == null)
+    private void UpdateLinkedCoinVisibility()
+    {
+        if (linkedRewardCoin == null)
             return;
 
-        if (falconCurrentlyPerchedHere)
+        bool shouldShowCoin;
+
+        if (showCoinOnlyWhenFalconPerched)
         {
-            linkedGate.OpenGate();
+            shouldShowCoin = falconCurrentlyPerchedHere;
         }
         else
         {
-            linkedGate.CloseGate();
+            shouldShowCoin = !falconCurrentlyPerchedHere;
         }
+
+        linkedRewardCoin.SetVisibleFromPerch(shouldShowCoin);
     }
 }
