@@ -145,6 +145,24 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a9dc6ba-e53e-426d-b698-de7ae240ba9e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FalconRearView"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc7edfa3-eb1e-4cfd-974b-b456dcc5b15a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -279,6 +297,28 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4469e87a-e384-4016-8ee9-51501c1656aa"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b0011e7-20f9-484d-96e1-759299082aef"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FalconRearView"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -293,6 +333,8 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_SwitchCharacter = m_Gameplay.FindAction("SwitchCharacter", throwIfNotFound: true);
         m_Gameplay_FlyVertical = m_Gameplay.FindAction("FlyVertical", throwIfNotFound: true);
+        m_Gameplay_Interact = m_Gameplay.FindAction("Interact", throwIfNotFound: true);
+        m_Gameplay_FalconRearView = m_Gameplay.FindAction("FalconRearView", throwIfNotFound: true);
     }
 
     ~@FalconeerControls()
@@ -379,6 +421,8 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Dash;
     private readonly InputAction m_Gameplay_SwitchCharacter;
     private readonly InputAction m_Gameplay_FlyVertical;
+    private readonly InputAction m_Gameplay_Interact;
+    private readonly InputAction m_Gameplay_FalconRearView;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -414,6 +458,14 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/FlyVertical".
         /// </summary>
         public InputAction @FlyVertical => m_Wrapper.m_Gameplay_FlyVertical;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_Gameplay_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/FalconRearView".
+        /// </summary>
+        public InputAction @FalconRearView => m_Wrapper.m_Gameplay_FalconRearView;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -458,6 +510,12 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
             @FlyVertical.started += instance.OnFlyVertical;
             @FlyVertical.performed += instance.OnFlyVertical;
             @FlyVertical.canceled += instance.OnFlyVertical;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @FalconRearView.started += instance.OnFalconRearView;
+            @FalconRearView.performed += instance.OnFalconRearView;
+            @FalconRearView.canceled += instance.OnFalconRearView;
         }
 
         /// <summary>
@@ -487,6 +545,12 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
             @FlyVertical.started -= instance.OnFlyVertical;
             @FlyVertical.performed -= instance.OnFlyVertical;
             @FlyVertical.canceled -= instance.OnFlyVertical;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @FalconRearView.started -= instance.OnFalconRearView;
+            @FalconRearView.performed -= instance.OnFalconRearView;
+            @FalconRearView.canceled -= instance.OnFalconRearView;
         }
 
         /// <summary>
@@ -569,5 +633,19 @@ public partial class @FalconeerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFlyVertical(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "FalconRearView" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFalconRearView(InputAction.CallbackContext context);
     }
 }

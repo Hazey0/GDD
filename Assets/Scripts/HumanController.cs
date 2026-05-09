@@ -1,4 +1,3 @@
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,10 +9,22 @@ public class HumanController : MonoBehaviour
     public float jumpHeight = 2f;
     public float gravity = -20f;
 
+    [Header("Camera Relative Movement")]
+    public Transform cameraTransform;
+
+    private bool falconIsWithHuman = true;
+
     [Header("Dash")]
     public float dashSpeed = 14f;
     public float dashDuration = 0.15f;
     public float dashCooldown = 0.5f;
+    
+
+    [Header("Double Jump")]
+    public int maxJumpsWithFalcon = 2;
+    public int maxJumpsWithoutFalcon = 1;
+
+    private int jumpsUsed = 0;  
 
     private CharacterController controller;
 
@@ -22,6 +33,7 @@ public class HumanController : MonoBehaviour
 
     private bool isActiveCharacter = true;
     private bool isDashing = false;
+    private bool hasTouchedGroundSinceDash = true;
     private float dashTimer = 0f;
     private float dashCooldownTimer = 0f;
     private Vector3 dashDirection;
@@ -34,6 +46,11 @@ public class HumanController : MonoBehaviour
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+
+        if (cameraTransform == null && Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
+        }
         
     }
 
@@ -65,9 +82,25 @@ public class HumanController : MonoBehaviour
 
     private void HandleGravityAlways()
     {
+        if (isDashing)
+        {
+            velocity.y = 0f;
+            return;
+        }
+
         if (controller.isGrounded && velocity.y < 0f)
         {
+
             velocity.y = -2f;
+
+            jumpsUsed = 0;
+
+            hasTouchedGroundSinceDash = true;
+
+            if (animator != null)
+            {
+                animator.SetBool("isJumping", false);
+            }
         }
 
         velocity.y += gravity * Time.deltaTime;
@@ -88,16 +121,42 @@ public class HumanController : MonoBehaviour
 
     private void HandleMovement()
     {
-        Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 moveDirection;
+
+        if (cameraTransform != null)
+        {
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            cameraForward.y = 0f;
+            cameraRight.y = 0f;
+
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            moveDirection = cameraForward * moveInput.y + cameraRight * moveInput.x;
+        }
+        else
+        {
+            moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        }
+
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
         if (moveDirection.magnitude > 0.1f)
         {
-            transform.forward = moveDirection;
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                12f * Time.deltaTime
+            );
         }
 
         if (isDashing)
         {
+            // Dash ignores WASD and only moves in the saved dash direction.
             controller.Move(dashDirection * dashSpeed * Time.deltaTime);
 
             dashTimer -= Time.deltaTime;
@@ -106,12 +165,16 @@ public class HumanController : MonoBehaviour
             {
                 isDashing = false;
             }
+
+           
+            return; //This is so gravity does not apply during dash
         }
         else
         {
             controller.Move(moveDirection * moveSpeed * Time.deltaTime);
         }
 
+        // Gravity only applies when NOT dashing.
         controller.Move(velocity * Time.deltaTime);
     }
 
@@ -131,10 +194,23 @@ public class HumanController : MonoBehaviour
         return isActiveCharacter;
     }
 
+    public void setFalconWithHuman(bool withHuman)
+    {
+        falconIsWithHuman = withHuman;
+
+        if(!falconIsWithHuman)
+        {
+            isDashing = false;
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         if (!isActiveCharacter)
             return;
+        if (isDashing)
+            return;
+
         //animator.SetBool("isWalking", true);
         moveInput = context.ReadValue<Vector2>();
 
@@ -144,19 +220,23 @@ public class HumanController : MonoBehaviour
     {
         if (!isActiveCharacter)
             return;
-
-        if (!context.performed)
-        {
+        if (isDashing)
             return;
-        }
+        if (!context.performed)
+            return;
+        
 
-            animator.SetBool("isJumping", true);
-        if (controller.isGrounded)
+        int allowedJumps = falconIsWithHuman ? maxJumpsWithFalcon : maxJumpsWithoutFalcon;
+
+        if(jumpsUsed < allowedJumps)
         {
+            if(animator != null)
+            {
+                animator.SetBool("isJumping", true);
+            }
 
-            
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
+            jumpsUsed++;
         }
     }
 
@@ -168,10 +248,35 @@ public class HumanController : MonoBehaviour
         if (!context.performed)
             return;
 
+        if(!falconIsWithHuman)
+            return;
+
         if (dashCooldownTimer > 0f)
             return;
 
-        Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        if (!hasTouchedGroundSinceDash)
+            return;
+
+        Vector3 moveDirection;
+
+        if (cameraTransform != null)
+        {
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            cameraForward.y = 0f;
+            cameraRight.y = 0f;
+
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            moveDirection = cameraForward * moveInput.y + cameraRight * moveInput.x;
+        }
+        else
+        {
+            moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        }
+
         moveDirection = Vector3.ClampMagnitude(moveDirection, 1f);
 
         if (moveDirection.magnitude < 0.1f)
@@ -183,5 +288,6 @@ public class HumanController : MonoBehaviour
         isDashing = true;
         dashTimer = dashDuration;
         dashCooldownTimer = dashCooldown;
+        hasTouchedGroundSinceDash = false;
     }
 }

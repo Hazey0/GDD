@@ -6,6 +6,7 @@ public class OptionsMenu : MonoBehaviour
 {
     [Header("Options Panel")]
     public GameObject optionsPanel;
+    public GameObject mainButtons;
 
     [Header("Volume")]
     public Slider volumeSlider;
@@ -17,16 +18,16 @@ public class OptionsMenu : MonoBehaviour
 
     private void Start()
     {
-        // Hide panel at start
+        
         optionsPanel.SetActive(false);
 
-        // Load saved volume or default to 1
+       
         float savedVolume = PlayerPrefs.GetFloat("Volume", 1f);
         volumeSlider.value = savedVolume;
         AudioListener.volume = savedVolume;
         UpdateVolumeLabel(savedVolume);
 
-        // Listen for slider changes
+     
         volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
     }
 
@@ -34,12 +35,14 @@ public class OptionsMenu : MonoBehaviour
     {
         PlayClickSound();
         optionsPanel.SetActive(true);
+        mainButtons.SetActive(false);
     }
 
     public void CloseOptions()
     {
         PlayClickSound();
         optionsPanel.SetActive(false);
+        mainButtons.SetActive(true);
     }
 
     public void PlayClickSound()
