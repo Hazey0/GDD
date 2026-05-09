@@ -10,7 +10,7 @@ public class EnemyAI : MonoBehaviour
     public float moveSpeed = 3f;
     public float chaseDistance = 8f;
     public float attackDistance = 2f;
-    public float damage = 10f;
+    public float damage = 4f;
     public float attackCooldown = 1.5f;
 
     private float lastAttackTime;

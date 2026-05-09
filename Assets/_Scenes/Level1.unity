@@ -1486,6 +1486,10 @@ PrefabInstance:
       propertyPath: coinsNeededToOpenGate
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3341656480291442615, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
+      propertyPath: coinsNeededToCompleteLevel
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3795114678222630684, guid: a4bc6bbeec6e143429c2ea91c71cb719, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.058895
