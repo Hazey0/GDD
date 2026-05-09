@@ -1,29 +1,21 @@
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Scene Loading")]
+    public string mainMenuSceneName = "MainMenu";
+
     [Header("Game State")]
-    [SerializeField] private bool gameEnded = false;
+    [SerializeField] private bool levelEnded = false;
 
-    [Header("Reset")]
-    public float resetDelay = 3f;
-
-    [Header("UI")]
-    public GameObject winPanel;
-    public TMP_Text winText;
-
-    [Header("Player References")]
+    [Header("Optional Player References")]
     public HumanController humanController;
     public FalconController falconController;
-
-    [Header("Optional Managers")]
     public CharacterSwitchManager characterSwitchManager;
 
     private void Awake()
     {
-        // Auto-find references if you forgot to drag them in.
         if (humanController == null)
             humanController = FindFirstObjectByType<HumanController>();
 
@@ -32,73 +24,42 @@ public class GameManager : MonoBehaviour
 
         if (characterSwitchManager == null)
             characterSwitchManager = FindFirstObjectByType<CharacterSwitchManager>();
-
-        // Make sure win UI is hidden at the start.
-        if (winPanel != null)
-            winPanel.SetActive(false);
-
-        if (winText != null)
-            winText.text = "";
     }
 
-    public void WinGame()
+    public void CompleteLevel()
     {
-        if (gameEnded)
+        if (levelEnded)
             return;
 
-        gameEnded = true;
+        levelEnded = true;
 
-        Debug.Log("You Win!");
+        Debug.Log("Level complete. Loading main menu.");
 
-        // Show win UI.
-        if (winPanel != null)
-        {
-            winPanel.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("GameManager: Win Panel is not assigned.");
-        }
+        StopPlayerControl();
 
-        if (winText != null)
-        {
-            winText.text = "LEVEL COMPLETE!";
-        }
-        else
-        {
-            Debug.LogWarning("GameManager: Win Text is not assigned.");
-        }
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
 
-        // Stop both characters from receiving control.
+    private void StopPlayerControl()
+    {
         if (humanController != null)
         {
             humanController.SetActiveCharacter(false);
-        }
-        else
-        {
-            Debug.LogWarning("GameManager: Human Controller is not assigned.");
         }
 
         if (falconController != null)
         {
             falconController.SetActiveCharacter(false);
         }
-        else
+
+        if (characterSwitchManager != null)
         {
-            Debug.LogWarning("GameManager: Falcon Controller is not assigned.");
+            characterSwitchManager.enabled = false;
         }
-
-        Invoke(nameof(RestartScene), resetDelay);
-
     }
 
-    private void RestartScene()
+    public bool HasLevelEnded()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public bool HasGameEnded()
-    {
-        return gameEnded;
+        return levelEnded;
     }
 }

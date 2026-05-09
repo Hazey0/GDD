@@ -1,9 +1,7 @@
-using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public class CoinPickup : MonoBehaviour
 {
-    public AudioSource coinSound;
     [Header("Pickup Settings")]
     public bool canHumanCollect = true;
     public bool canFalconCollect = true;
@@ -14,7 +12,13 @@ public class CoinPickup : MonoBehaviour
     [Header("Visual")]
     public float rotationSpeed = 120f;
 
+    [Header("Perch Controlled Visibility")]
+    public bool controlledByPerch = false;
+    public bool visibleWhenPerchInactive = true;
+
     private bool collected = false;
+    private Renderer[] renderers;
+    private Collider[] colliders;
 
     private void Awake()
     {
@@ -22,27 +26,46 @@ public class CoinPickup : MonoBehaviour
         {
             coinManager = FindFirstObjectByType<CoinManager>();
         }
+
+        renderers = GetComponentsInChildren<Renderer>(true);
+        colliders = GetComponentsInChildren<Collider>(true);
+    }
+
+    private void Start()
+    {
+        if (controlledByPerch)
+        {
+            SetVisible(visibleWhenPerchInactive);
+        }
     }
 
     private void Update()
     {
+        if (collected)
+            return;
 
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (collected) return;
+        if (collected)
+            return;
 
-        HumanController human = other.GetComponent<HumanController>();
-        FalconController falcon = other.GetComponent<FalconController>();
+        HumanController human = other.GetComponentInParent<HumanController>();
+        FalconController falcon = other.GetComponentInParent<FalconController>();
 
         bool touchedByHuman = human != null;
         bool touchedByFalcon = falcon != null;
 
-        if (touchedByHuman && !canHumanCollect) return;
-        if (touchedByFalcon && !canFalconCollect) return;
-        if (!touchedByHuman && !touchedByFalcon) return;
+        if (touchedByHuman && !canHumanCollect)
+            return;
+
+        if (touchedByFalcon && !canFalconCollect)
+            return;
+
+        if (!touchedByHuman && !touchedByFalcon)
+            return;
 
         collected = true;
 
@@ -50,11 +73,46 @@ public class CoinPickup : MonoBehaviour
         {
             coinManager.CollectCoin();
         }
+        else
+        {
+            Debug.LogWarning("CoinPickup could not find a CoinManager in the scene.");
+        }
 
-   
-        coinSound.Play();
+        SetVisible(false);
+    }
 
+    public void SetVisibleFromPerch(bool visible)
+    {
+        if (collected)
+        {
+            SetVisible(false);
+            return;
+        }
 
-        Destroy(gameObject, coinSound.clip.length);
+        SetVisible(visible);
+    }
+
+    private void SetVisible(bool visible)
+    {
+        foreach (Renderer r in renderers)
+        {
+            if (r != null)
+            {
+                r.enabled = visible;
+            }
+        }
+
+        foreach (Collider c in colliders)
+        {
+            if (c != null)
+            {
+                c.enabled = visible;
+            }
+        }
+    }
+
+    public bool IsCollected()
+    {
+        return collected;
     }
 }
